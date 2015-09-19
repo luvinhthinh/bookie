@@ -1,17 +1,17 @@
 var map;
 var myPlace = {lat: 1.370239, lng: 103.852406};
-var bookImage = "http://files.softicons.com/download/object-icons/book-icons-by-tobias-vogel/png/512x512/book-brown.png";
+var bookImage = "images/book.jpg";
 
 var renters = [
-    {lat: 1.3695089, lng: 103.8484518},
-    {lat: 1.283889, lng: 103.851792},
-    {lat: 1.3499709, lng: 103.8487939},
-    {lat: 1.3149421, lng: 103.7642368},
-    {lat: 1.296705, lng: 103.77315},
-    {lat: 1.334938, lng: 103.746872},
-    {lat: 1.2931346, lng: 103.852785},
-    {lat: 1.3038952, lng: 103.8319412},
-    {lat: 1.349505, lng: 103.873768}
+    ['abc', 1.3695089, 103.8484518, 1],
+    ['abc', 1.283889, 103.851792, 2],
+    ['abc', 1.3499709, 103.8487939, 3],
+    ['abc', 1.3149421, 103.7642368, 4],
+    ['abc', 1.296705, 103.77315, 5],
+    ['abc', 1.334938, 103.746872, 6],
+    ['abc', 1.2931346, 103.852785, 7],
+    ['abc', 1.3038952, 103.8319412, 8],
+    ['abc', 1.349505, 103.873768, 9]
 ];
 
 var mapOptions = {
@@ -61,11 +61,46 @@ function initAutocomplete() {
     var searchBox = new google.maps.places.SearchBox(input);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-    var marker = new google.maps.Marker({
+    new google.maps.Marker({
         position: myPlace,
         map: map,
-        title: 'Hello World!'
+        title: ''
     });
+
+    // Adds markers to the map.
+    // Marker sizes are expressed as a Size of X,Y where the origin of the image
+    // (0,0) is located in the top left of the image.
+
+    // Origins, anchor positions and coordinates of the marker increase in the X
+    // direction to the right and in the Y direction down.
+    var image = {
+        url: bookImage,
+        // This marker is 20 pixels wide by 32 pixels high.
+        size: new google.maps.Size(34, 24),
+        // The origin for this image is (0, 0).
+        origin: new google.maps.Point(0, 0),
+        // The anchor for this image is the base of the flagpole at (0, 32).
+        anchor: new google.maps.Point(0, 32)
+    };
+    // Shapes define the clickable region of the icon. The type defines an HTML
+    // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+    // The final coordinate closes the poly by connecting to the first coordinate.
+    var shape = {
+        coords: [1, 1, 1, 20, 18, 20, 18, 1],
+        type: 'poly'
+    };
+    for (var i = 0; i < renters.length; i++) {
+        var renter = renters[i];
+        new google.maps.Marker({
+            position: {lat: renter[1], lng: renter[2]},
+            map: map,
+            icon: image,
+            shape: shape,
+            title: renter[0],
+            zIndex: renter[3]
+        });
+    }
+
 
 
     // Bias the SearchBox results towards current map's viewport.
