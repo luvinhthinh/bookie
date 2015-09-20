@@ -53,7 +53,9 @@ function initAutocomplete() {
 
         center: myPlace,
         zoom: 16,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP]
+        } // here´s the array of controls
     });
 
     // Create the search box and link it to the UI element.
@@ -91,7 +93,7 @@ function initAutocomplete() {
     };
     for (var i = 0; i < renters.length; i++) {
         var renter = renters[i];
-        new google.maps.Marker({
+        var m = new google.maps.Marker({
             position: {lat: renter[1], lng: renter[2]},
             map: map,
             icon: image,
@@ -99,9 +101,18 @@ function initAutocomplete() {
             title: renter[0],
             zIndex: renter[3]
         });
+        attachSecretMessage(m, secretMessages[i]);
     }
 
+    function attachSecretMessage(marker, secretMessage) {
+        var infowindow = new google.maps.InfoWindow({
+            content: secretMessage
+        });
 
+        marker.addListener('click', function() {
+            infowindow.open(marker.get('map'), marker);
+        });
+    }
 
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function() {
