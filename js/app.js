@@ -3,16 +3,20 @@ var myPlace = {lat: 1.370239, lng: 103.852406};
 var bookImage = "images/book.jpg";
 
 var renters = [
-    ['abc', 1.3695089, 103.8484518, 1],
-    ['abc', 1.283889, 103.851792, 2],
-    ['abc', 1.3499709, 103.8487939, 3],
-    ['abc', 1.3149421, 103.7642368, 4],
-    ['abc', 1.296705, 103.77315, 5],
-    ['abc', 1.334938, 103.746872, 6],
-    ['abc', 1.2931346, 103.852785, 7],
-    ['abc', 1.3038952, 103.8319412, 8],
-    ['abc', 1.349505, 103.873768, 9]
+    ['id1', 1.3695089, 103.8484518, 1],
+    ['id2', 1.283889, 103.851792, 2],
+    ['id3', 1.3499709, 103.8487939, 3],
+    ['id4', 1.3149421, 103.7642368, 4],
+    ['id5', 1.296705, 103.77315, 5],
+    ['id6', 1.334938, 103.746872, 6],
+    ['id7', 1.2931346, 103.852785, 7],
+    ['id8', 1.3038952, 103.8319412, 8],
+    ['id9', 1.349505, 103.873768, 9]
 ];
+
+var bookInfo = {
+
+};
 
 var mapOptions = {
     zoomControl: true,
@@ -27,7 +31,6 @@ var mapOptions = {
 };
 
 function initMap() {
-
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
 
@@ -98,15 +101,39 @@ function initAutocomplete() {
             map: map,
             icon: image,
             shape: shape,
-            title: renter[0],
             zIndex: renter[3]
         });
-        attachSecretMessage(m, secretMessages[i]);
+        attachBookInfo(m, 'abc');
     }
 
-    function attachSecretMessage(marker, secretMessage) {
+    function attachBookInfo(marker, secretMessage) {
         var infowindow = new google.maps.InfoWindow({
-            content: secretMessage
+            content:
+                '<table>'+
+                    '<tr>'+
+                        '<td>'+
+                            "<img src='./../images/quiet.jpg' style='width:34px;height:40px;'>"+
+                        '</td>'+
+                        '<td>'+
+                            '<div><b> Quiet </b></div>'+
+                            '<div><i> Susan Cain </i></div>'+
+                            '<div> Self-Help, Introversion</div>'+
+                        '</td>'+
+                    '</tr>'+
+                '</table>'+
+
+                '<table>'+
+                    '<tr>'+
+                        '<td>'+
+                            "<img src='./../images/quiet.jpg' style='width:34px;height:40px;'>"+
+                        '</td>'+
+                        '<td>'+
+                            '<div><b> 7 Habits of Highly Efficient People </b></div>'+
+                            '<div><i> Stephen R.Covey </i></div>'+
+                            '<div> Productivity</div>'+
+                        '</td>'+
+                    '</tr>'+
+                '</table>'
         });
 
         marker.addListener('click', function() {
